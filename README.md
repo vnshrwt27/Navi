@@ -1,82 +1,147 @@
+# Navi
 
+> Local code intelligence for multi-repository codebases.
 
-# **Navi: Code Intelligence & Observability Platform**
+Navi indexes one or more repositories and builds a local, structured model of
+code, relationships, and Git history.
 
-### **Project Summary**
+## What is Navi?
 
-Navi is a developer-facing tool designed to **visualize, explore, and analyze large codebases** in an intuitive, interactive way. It converts a codebase into a **graph of nodes and edges** (functions, classes, files, modules as nodes; calls, imports, inheritance as edges) and overlays **runtime behavior, metrics, and dataflow**. The platform enables developers and teams to **understand, query, and optimize software systems**, detect dead code, trace data transformations, and maintain governance.
+Navi turns a codebase into a queryable graph of:
 
----
+- Files and symbols
+- Calls and references
+- Imports and dependencies
+- API and service relationships
+- Cross-repository dependencies
+- Git history and changes
 
-### **Goals**
+The goal is to make it easier to understand how a system is structured and
+how changes propagate through it.
 
-1. **Visual Code Exploration**
+## Key Capabilities
 
-   * Navigate large codebases through interactive graphs.
-   * Understand function calls, class hierarchies, and module dependencies.
+- 🔍 Symbol and code search
+- 🕸️ Code dependency graph
+- 🔗 Cross-repository relationships
+- 💥 Change impact analysis
+- 🌳 Git-aware code history
+- ⚡ Incremental indexing
+- 🧠 Optional local semantic search / LLM
+- 🔒 Fully local operation
 
-2. **Queryable Code Graph**
+## Example
 
-   * Support queries like “which functions are unused?” or “what calls this function?”.
-   * Enable both structured (Cypher/GraphQL) and natural language queries.
+Given:
 
-3. **Dataflow & Observability**
+    frontend
+        │
+        │ HTTP
+        ▼
+    backend
+        │
+        │ gRPC
+        ▼
+    identity
 
-   * Map how data moves across the system.
-   * Integrate runtime metrics, logs, and traces to highlight hotspots and errors.
+Navi can represent this as:
 
-4. **Dead Code & Optimization Insights**
+    frontend::UserClient
+            │
+        HTTP_CALL
+            ▼
+    backend::UserController
+            │
+          CALLS
+            ▼
+    backend::UserService
+            │
+        GRPC_CALL
+            ▼
+    identity::UserService
 
-   * Detect unused or rarely executed functions/modules.
-   * Track code changes, file churn, and dependency impact.
+And answer queries such as:
 
-5. **Access Control & Governance**
+    navi callers UserService::update
+    navi callees UserService::update
+    navi graph UserService::update
+    navi impact UserService::update
 
-   * Restrict visibility of sensitive modules.
-   * Track who queries or modifies specific nodes.
+## Multi-Repository
 
-6. **Database & Schema Visualization**
+Navi treats multiple repositories as a workspace:
 
-   * Map ORM models or SQL/MongoDB schemas to code.
-   * Visualize transformations from code → database → downstream functions.
+    workspace/
+    ├── frontend/
+    ├── backend/
+    ├── payments/
+    ├── identity/
+    └── shared/
 
----
+Repositories remain independently represented while relationships between
+them are included in the workspace graph.
 
-### **Core Features**
+## Quick Start
 
-* AST-based static code analysis (functions, classes, imports, inheritance)
-* Runtime observability integration (Prometheus, OpenTelemetry, logs)
-* Interactive 2D graph visualization (D3.js, Cytoscape)
-* Multi-language support (Tree-sitter / Babelfish)
-* Search and query interface (GraphQL, Cypher, optional natural language)
-* Metrics, heatmaps, and dashboards for code health
-* Dead code detection and code evolution tracking
-* Role-based access control for sensitive modules
+    git clone <repository>
+    cd navi
 
----
+    cargo build --release
 
-### **Tech Stack**
+    navi index /path/to/workspace
 
-| Layer                               | Tools / Frameworks                                                          |
-| ----------------------------------- | --------------------------------------------------------------------------- |
-| **Static Code Analysis**            | Tree-sitter, Python `ast` / `libcst`, Babel (JS/TS), Babelfish (multi-lang) |
-| **Graph Storage**                   | Neo4j, ArangoDB, NetworkX (prototyping)                                     |
-| **Runtime Metrics / Observability** | Prometheus, OpenTelemetry, Loki/Elasticsearch, Grafana                      |
-| **Backend / API**                   | FastAPI, GraphQL, REST                                                      |
-| **Frontend / Visualization**        | React, D3.js, Cytoscape.js, Recharts/ECharts                                |
-| **Authentication & Access Control** | OAuth2, LDAP, JWT                                                           |
-| **Optional AI Layer**               | LLM embeddings for semantic search, natural language queries                |
+## Architecture
 
----
+    Repositories
+          │
+          ▼
+       Indexer
+          │
+       ┌──┴─────────────┐
+       ▼                ▼
+    Parser             Git
+       │                │
+       └───────┬────────┘
+               ▼
+          Navi Model
+               │
+       ┌───────┼────────┐
+       ▼       ▼        ▼
+     Graph   Search   History
+       │       │        │
+       └───────┼────────┘
+               ▼
+             CLI
 
-### **Future Extensions**
+See [`docs/`](docs/) for architecture and implementation details.
 
-* LLM-powered explanations & recommendations
-* Cross-repo and microservice dependency visualization
-* Collaborative exploration and annotation
-* CI/CD integration with code evolution monitoring
-* Alerting based on runtime anomalies or code changes
+## Tech Stack
 
-Contributors:
-Manu
----
+- Rust
+- Tree-sitter
+- SQLite
+- Tantivy
+- Git
+- Local embedding models
+
+## Roadmap
+
+- [ ] Rust parsing and symbol indexing
+- [ ] Code relationship graph
+- [ ] Incremental indexing
+- [ ] Impact analysis
+- [ ] Git integration
+- [ ] Multi-repository analysis
+- [ ] Semantic search
+- [ ] Graph visualization
+- [ ] Local LLM integration
+
+## Development
+
+    cargo test
+    cargo fmt
+    cargo clippy
+
+## License
+
+TBD
