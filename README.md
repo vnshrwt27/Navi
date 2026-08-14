@@ -77,4 +77,6 @@ Navi is a developer-facing tool designed to **visualize, explore, and analyze la
 * CI/CD integration with code evolution monitoring
 * Alerting based on runtime anomalies or code changes
 
+Contributors:
+Manu
 ---
