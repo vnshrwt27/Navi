@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "crates/navi-index",
+]
+resolver = "2"
