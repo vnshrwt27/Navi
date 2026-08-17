@@ -1,0 +1,4 @@
+[package]
+name = "navi-parser"
+version.workspace = true
+edition.workspace = true

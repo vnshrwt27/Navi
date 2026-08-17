@@ -1,0 +1,4 @@
+[package]
+name = "navi-index"
+version.workspace = true
+edition.workspace = true
