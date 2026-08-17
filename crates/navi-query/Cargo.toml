@@ -1,0 +1,4 @@
+[package]
+name = "navi-query"
+version.workspace = true
+edition.workspace = true

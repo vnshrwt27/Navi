@@ -1,0 +1,4 @@
+[package]
+name = "navi-storage"
+version.workspace = true
+edition.workspace = true
