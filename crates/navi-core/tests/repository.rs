@@ -36,7 +36,10 @@ fn generates_unique_repository_ids() {
         .set_workspace_id(workspace_id)
         .build();
 
-    assert_ne!(repository_1.get_repository_id(), repository_2.get_repository_id());
+    assert_ne!(
+        repository_1.get_repository_id(),
+        repository_2.get_repository_id()
+    );
 }
 
 #[test]

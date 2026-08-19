@@ -3,7 +3,7 @@ use uuid::Uuid;
 type RepositoryId = Uuid;
 type WorkspaceId = Uuid;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 pub struct Repository {
     repository_id: RepositoryId,
     workspace_id: WorkspaceId,
@@ -13,12 +13,12 @@ impl Repository {
     pub fn get_workspace_id(&self) -> WorkspaceId {
         self.workspace_id
     }
-    pub fn get_repository_id(&self) -> RepositoryId{
+    pub fn get_repository_id(&self) -> RepositoryId {
         self.repository_id
     }
 }
 
-#[derive(Default, PartialEq, Eq)]
+#[derive(Default)]
 pub struct RepositoryBuilder {
     repository_id: Option<RepositoryId>,
     workspace_id: Option<WorkspaceId>,
