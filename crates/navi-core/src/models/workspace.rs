@@ -4,9 +4,14 @@ use uuid::Uuid;
 type WorkspaceId = Uuid;
 
 #[derive(Debug)]
-#[allow(dead_code)]
 pub struct Workspace {
     workspace_id: WorkspaceId,
+}
+
+impl Workspace {
+    pub fn get_id(&self) -> WorkspaceId {
+        self.workspace_id
+    }
 }
 
 #[derive(Default)]
