@@ -17,7 +17,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          components: rustfmt, clippy
+          components: rustfmt, clippy, llvm-tools-preview
 
       - name: Check formatting
         run: cargo fmt --all -- --check
@@ -30,3 +30,9 @@ jobs:
 
       - name: Tests
         run: cargo test --all-features
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Test coverage
+        run: cargo llvm-cov --all-features --fail-under-lines 80
