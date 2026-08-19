@@ -4,13 +4,21 @@ type RepositoryId = Uuid;
 type WorkspaceId = Uuid;
 
 #[derive(Debug, PartialEq, Eq)]
-#[allow(dead_code)]
 pub struct Repository {
     repository_id: RepositoryId,
     workspace_id: WorkspaceId,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+impl Repository {
+    pub fn get_workspace_id(&self) -> WorkspaceId {
+        self.workspace_id
+    }
+    pub fn get_repository_id(&self) -> RepositoryId{
+        self.repository_id
+    }
+}
+
+#[derive(Default, PartialEq, Eq)]
 pub struct RepositoryBuilder {
     repository_id: Option<RepositoryId>,
     workspace_id: Option<WorkspaceId>,
