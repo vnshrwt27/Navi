@@ -19,20 +19,8 @@ jobs:
         with:
           components: rustfmt, clippy, llvm-tools-preview
 
-      - name: Check formatting
-        run: cargo fmt --all -- --check
-
-      - name: Cargo check
-        run: cargo check --all-targets --all-features
-
-      - name: Clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
-
-      - name: Tests
-        run: cargo test --all-features
-
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
 
-      - name: Test coverage
-        run: cargo llvm-cov --all-features --fail-under-lines 80
+      - name: Run PR checks
+        run: cargo xtask pr
