@@ -2,3 +2,11 @@
 name = "navi-cli"
 version.workspace = true
 edition.workspace = true
+[[bin]]
+name = "navi"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+console.workspace = true
+indicatif.workspace = true
