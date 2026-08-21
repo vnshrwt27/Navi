@@ -27,12 +27,15 @@ pub fn success() -> Style {
     Style::new().green()
 }
 
-// pub fn error() -> Style {
-//     Style::new().red()
-// }
+pub fn error() -> Style {
+    Style::new().bold().red()
+}
 
-pub fn separator() {
+pub fn separator(val: &str) -> String {
     let style = Style::new().dim();
 
-    println!("{}", style.apply_to("=".repeat(50)));
+    let sep = style.apply_to("=".repeat(50)).to_string();
+    let title = title().apply_to(val).to_string();
+
+    format!("{sep}\n{title}\n{sep}")
 }

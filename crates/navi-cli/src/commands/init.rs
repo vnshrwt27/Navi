@@ -1,9 +1,8 @@
-use std::path::PathBuf;
+use std::{error::Error, path::PathBuf};
 
-use anyhow::{Result, bail};
 use clap::Args;
 
-use crate::output;
+use crate::{command::Command, output};
 
 #[derive(Debug, Args)]
 pub struct InitArgs {
@@ -11,33 +10,27 @@ pub struct InitArgs {
     pub path: PathBuf,
 }
 
-pub fn run(args: InitArgs) -> Result<()> {
-    if !args.path.exists() {
-        bail!("Path does not exist: {}", args.path.display());
+impl Command for InitArgs {
+    fn run(&self) -> Result<(), Box<dyn Error>> {
+        if !self.path.exists() {
+            return Err(format!("Path does not exist: {}", self.path.display()).into());
+        }
+
+        if !self.path.is_dir() {
+            return Err(format!("Path is not a directory: {}", self.path.display()).into());
+        }
+
+        let info = output::separator("Initializing Navi workspace");
+        println!("{}", info);
+
+        println!(
+            "{} {}",
+            output::label().apply_to("Path:"),
+            output::path().apply_to(self.path.display())
+        );
+
+        println!("{}", output::success().apply_to("[placeholder]"));
+
+        Ok(())
     }
-
-    if !args.path.is_dir() {
-        bail!("Path is not a directory: {}", args.path.display());
-    }
-
-    output::separator();
-
-    println!(
-        "{}",
-        output::title().apply_to("Initializing Navi workspace")
-    );
-
-    output::separator();
-
-    println!();
-
-    println!(
-        "{} {}",
-        output::label().apply_to("Path:"),
-        output::path().apply_to(args.path.display())
-    );
-
-    println!("{}", output::success().apply_to("[placeholder]"));
-
-    Ok(())
 }

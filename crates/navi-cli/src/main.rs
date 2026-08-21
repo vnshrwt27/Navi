@@ -1,9 +1,11 @@
+mod command;
 mod commands;
 mod output;
 
 use clap::{Parser, Subcommand};
 
-use commands::init;
+use command::Command;
+use commands::init::InitArgs;
 
 #[derive(Debug, Parser)]
 #[command(
@@ -14,26 +16,32 @@ use commands::init;
                   through symbols, relationships, dependency graphs, and history.",
     styles = output::cli_styles()
 )]
-struct Cli {
+pub struct Cli {
     #[command(subcommand)]
-    command: Command,
+    command: Commands,
 }
 
 #[derive(Debug, Subcommand)]
-enum Command {
+enum Commands {
     #[command(
         name = "init",
         about = "Initialize a Navi workspace",
         long_about = "Initialize a new Navi workspace in the specified directory.",
         styles = output::cli_styles()
     )]
-    Init(init::InitArgs),
+    Init(InitArgs),
 }
 
-fn main() -> anyhow::Result<()> {
+fn main() {
     let cli = Cli::parse();
 
-    match cli.command {
-        Command::Init(args) => init::run(args),
+    let result = match cli.command {
+        Commands::Init(args) => args.run(),
+    };
+
+    if let Err(err) = result {
+        eprintln!("{} {}", output::error().apply_to("Error:"), err);
+
+        std::process::exit(1);
     }
 }
