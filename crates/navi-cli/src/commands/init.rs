@@ -37,10 +37,7 @@ pub fn run(args: InitArgs) -> Result<()> {
         output::path().apply_to(args.path.display())
     );
 
-    println!(
-        "{}",
-        output::success().apply_to("[placeholder]")
-    );
+    println!("{}", output::success().apply_to("[placeholder]"));
 
     Ok(())
 }
