@@ -1,7 +1,7 @@
 use uuid::Uuid;
 
-type RepositoryId = Uuid;
-type WorkspaceId = Uuid;
+pub type RepositoryId = Uuid;
+pub type WorkspaceId = Uuid;
 
 #[derive(Debug)]
 pub struct Repository {

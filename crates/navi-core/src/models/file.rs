@@ -1,12 +1,13 @@
 use uuid::Uuid;
 
+use crate::models::directory::DirectoryId;
+
 pub type FileId = Uuid;
-pub type RepositoryId = Uuid;
 
 #[derive(Debug)]
 pub struct File {
     file_id: FileId,
-    repository_id: RepositoryId,
+    directory_id: DirectoryId,
 }
 
 impl File {
@@ -14,15 +15,15 @@ impl File {
         self.file_id
     }
 
-    pub fn get_repository_id(&self) -> RepositoryId {
-        self.repository_id
+    pub fn get_directory_id(&self) -> DirectoryId {
+        self.directory_id
     }
 }
 
 #[derive(Default)]
 pub struct FileBuilder {
     file_id: Option<FileId>,
-    repository_id: Option<RepositoryId>,
+    directory_id: Option<DirectoryId>,
 }
 
 impl FileBuilder {
@@ -31,14 +32,15 @@ impl FileBuilder {
         self
     }
 
-    pub fn set_repository_id(mut self, repository_id: RepositoryId) -> Self {
-        self.repository_id = Some(repository_id);
+    pub fn set_directory_id(mut self, directory_id: DirectoryId) -> Self {
+        self.directory_id = Some(directory_id);
         self
     }
+
     pub fn build(self) -> File {
         File {
             file_id: self.file_id.unwrap_or_else(Uuid::new_v4),
-            repository_id: self.repository_id.expect("repository_id is required"),
+            directory_id: self.directory_id.expect("directory_id is required"),
         }
     }
 }
