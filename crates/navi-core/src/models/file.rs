@@ -5,6 +5,15 @@ use crate::models::directory::DirectoryId;
 pub type FileId = Uuid;
 
 #[derive(Debug)]
+pub enum Language {
+    Python,
+    Rust,
+    Javascript,
+    Go,
+    Java,
+    C
+}
+#[derive(Debug)]
 pub struct File {
     file_id: FileId,
     directory_id: DirectoryId,

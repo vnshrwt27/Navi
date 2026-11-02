@@ -2,3 +2,11 @@
 name = "navi-parser"
 version.workspace = true
 edition.workspace = true
+
+[dependencies]
+tree-sitter.workspace = true
+tree-sitter-rust.workspace = true
+tree-sitter-python.workspace = true
+tree-sitter-java.workspace = true
+navi-core = { path = "../navi-core/"}
+streaming-iterator.workspace = true
